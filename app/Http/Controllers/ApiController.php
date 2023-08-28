@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Services\ApiService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -43,20 +44,45 @@ class ApiController extends Controller
         return response()->json($data);
     }
 
-    public function getQuestion(Request $request){
+    public function getQuestion(Request $request)
+    {
         $this->getAccessToken($request);
         $this->generateGrantToken($request);
         $accessToken = Session::get('access_token');
         $grantToken = Session::get('grant_token');
 
-        if(isset($accessToken) && isset($grantToken)){
+        if (isset($accessToken) && isset($grantToken)) {
             $data = $this->apiService->getQuestion($accessToken, $grantToken);
-        }
-        else{
+        } else {
             $this->refreshToken($request);
             $data = $this->apiService->getQuestion($accessToken, $grantToken);
         }
 
-        return response()->json($data);
+        // Call the getSortedData function and return its result
+        $sortedData = $this->getSortedData($request);
+
+        return response()->json([
+            'question' => $data['question'],
+            'sortedData' => $sortedData,
+        ]);
+    }
+
+    public function getSortedData(Request $request)
+    {
+        $this->getAccessToken($request);
+        $this->generateGrantToken($request);
+        $accessToken = Session::get('access_token');
+        $grantToken = Session::get('grant_token');
+
+        if (isset($accessToken) && isset($grantToken)) {
+            $data = $this->apiService->getQuestion($accessToken, $grantToken);
+        } else {
+            $this->refreshToken($request);
+            $data = $this->apiService->getQuestion($accessToken, $grantToken);
+        }
+
+        $sortedData = new ProductResource($data['solutionResult']);
+
+        return response()->json($sortedData);
     }
 }
