@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+// Route to get access token
+// Route::get('/get-access-token', [ApiController::class, 'getAccessToken']);
+
+// Route to get access token
+// Route::get('/get-grant-token', [ApiController::class, 'generateGrantToken']);
+
+// Route to refresh token
+// Route::get('/refresh-token', [ApiController::class, 'refreshToken']);
+
+// Route to get question
+Route::get('/get-question', [ApiController::class, 'getQuestion']);
