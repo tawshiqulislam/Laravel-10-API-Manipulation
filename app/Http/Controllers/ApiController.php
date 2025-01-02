@@ -16,7 +16,7 @@ class ApiController extends Controller
     }
 
     public function getAccessToken(Request $request){
-        $email = 'tawshiq.rafi02@gmail.com';
+        $email = 'xxxxxxxxx@gmail.com'; // verified Email
         $data = $this->apiService->getAccessToken($email);
 
         Session::put('access_token', $data['accessToken']);
