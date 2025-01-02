@@ -14,22 +14,7 @@ Route::get('/get-question', [ApiController::class, 'getQuestion']);
 
 ApiController.php >
 -----------------------------
-<?php
 
-namespace App\Http\Controllers;
-
-use App\Http\Resources\ProductResource;
-use App\Services\ApiService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-
-class ApiController extends Controller
-{
-    protected $apiService;
-
-    public function __construct(ApiService $apiService){
-        $this->apiService = $apiService;
-    }
 
     public function getAccessToken(Request $request){
         $email = 'xxxxxxxxx@gmail.com'; // verified Email
@@ -101,4 +86,3 @@ class ApiController extends Controller
 
         return response()->json($sortedData);
     }
-}
